@@ -54,6 +54,7 @@ dependencies:
   google_map_polyline_new: ^0.3.0+2
   google_maps_flutter: ^2.1.1
   hexcolor: ^2.0.5
+  http: ^0.13.4
   image_picker: ^0.8.4+2
   intl: ^0.17.0
   location: ^4.3.0

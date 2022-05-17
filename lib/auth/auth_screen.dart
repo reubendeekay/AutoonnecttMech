@@ -111,7 +111,6 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Provider.of<LocationProvider>(context,listen: false).getCurrentLocation();
 
     return Scaffold(
       backgroundColor: const Color(0xff192028),

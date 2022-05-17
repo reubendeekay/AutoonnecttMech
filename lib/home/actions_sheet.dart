@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:mechanic_admin/chat/chat_room.dart';
+import 'package:mechanic_admin/drawer/report_screen.dart';
 import 'package:mechanic_admin/home/trail_map.dart';
 import 'package:mechanic_admin/home/update_invoice.dart';
 import 'package:mechanic_admin/models/request_model.dart';
@@ -154,6 +156,22 @@ void actionSheet(BuildContext context, RequestModel request) {
                   },
                   title: const Text(
                     "Update payment",
+                    style: (TextStyle(
+                        letterSpacing: 0.3, fontWeight: FontWeight.w500)),
+                  ),
+                ),
+                ListTile(
+                  dense: true,
+                  leading: const Icon(
+                    Icons.report_outlined,
+                    size: 20,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Get.to(() => ReportScreen(request: request));
+                  },
+                  title: const Text(
+                    "Report User",
                     style: (TextStyle(
                         letterSpacing: 0.3, fontWeight: FontWeight.w500)),
                   ),

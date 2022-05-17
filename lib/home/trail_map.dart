@@ -57,6 +57,7 @@ class _TrailMapScreenState extends State<TrailMapScreen> {
     });
   }
 
+//google cloud api key
   GoogleMapPolyline googleMapPolyline =
       GoogleMapPolyline(apiKey: "AIzaSyDxbfpRGmq3Wjex1SfTXwySuxQaCiQZxUM");
 

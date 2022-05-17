@@ -90,7 +90,7 @@ class _WithdrawWidgetState extends State<WithdrawWidget> {
                       decoration: InputDecoration(
                           hintText: 'Enter amount',
                           border: InputBorder.none,
-                          fillColor: Colors.white.withOpacity(0.1),
+                          fillColor: Colors.grey[200],
                           filled: true),
                     ),
                   ),

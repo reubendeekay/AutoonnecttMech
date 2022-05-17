@@ -8,6 +8,7 @@ import 'package:mechanic_admin/auth/auth_screen.dart';
 import 'package:mechanic_admin/chat/chat_screen.dart';
 import 'package:mechanic_admin/drawer/drawer_avatar.dart';
 import 'package:mechanic_admin/drawer/drawer_chart.dart';
+import 'package:mechanic_admin/drawer/inquiry_screen.dart';
 import 'package:mechanic_admin/finances/finance_overview_screen.dart';
 import 'package:mechanic_admin/manage_bookings/manage_bookings_screen.dart';
 import 'package:mechanic_admin/mechanic/mechanic_dash.dart';
@@ -66,6 +67,12 @@ class DrawerItems {
       onTap: () {
         Get.to(() => const NotificationsScreen());
       });
+  static final support = DrawerItem(
+      title: "Support",
+      icon: Icons.help_outline,
+      onTap: () {
+        Get.to(() => const EnquiryScreen());
+      });
   static final logout = DrawerItem(
       title: "Logout",
       icon: Icons.logout_outlined,
@@ -81,6 +88,7 @@ class DrawerItems {
     analytics,
     requests,
     notification,
+    support,
     logout
   ];
 }

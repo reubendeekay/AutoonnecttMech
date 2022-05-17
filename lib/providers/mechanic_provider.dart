@@ -94,12 +94,12 @@ class MechanicProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> confirmRequest(
-      {String? userId, String? mechanicId, String? docId}) async {
+  Future<void> confirmRequest({String? userId, String? docId}) async {
+    final mechanicId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('requests')
         .doc('mechanics')
-        .collection(mechanicId!)
+        .collection(mechanicId)
         .doc(docId)
         .update({'status': 'completed'});
 
@@ -137,10 +137,11 @@ class MechanicProvider with ChangeNotifier {
   }
 
   Future<void> completeBooking(RequestModel request) async {
+    final mechanicId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('requests')
         .doc('mechanics')
-        .collection(request.mechanic!.id!)
+        .collection(mechanicId)
         .doc(request.id!)
         .update({'status': 'completed'});
 
@@ -153,7 +154,7 @@ class MechanicProvider with ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection('mechanics')
-        .doc(request.mechanic!.id!)
+        .doc(mechanicId)
         .update({'isBusy': false});
     await FirebaseFirestore.instance
         .collection('mechanics')
@@ -180,10 +181,12 @@ class MechanicProvider with ChangeNotifier {
   }
 
   Future<void> cancelRequest(RequestModel request) async {
+    final mechanicId = FirebaseAuth.instance.currentUser!.uid;
+
     await FirebaseFirestore.instance
         .collection('requests')
         .doc('mechanics')
-        .collection(request.mechanic!.id!)
+        .collection(mechanicId)
         .doc(request.id)
         .update({'status': 'cancelled'});
 
@@ -196,7 +199,7 @@ class MechanicProvider with ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection('mechanics')
-        .doc(request.mechanic!.id!)
+        .doc(mechanicId)
         .collection('account')
         .doc('analytics')
         .update({
@@ -206,7 +209,7 @@ class MechanicProvider with ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection('mechanics')
-        .doc(request.mechanic!.id!)
+        .doc(mechanicId)
         .update({'isBusy': false});
     await userDataRef
         .doc(request.user!.userId!)

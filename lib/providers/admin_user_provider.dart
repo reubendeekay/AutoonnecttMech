@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mechanic_admin/helpers/my_refs.dart';
 import 'package:mechanic_admin/models/invoice_models.dart';
 import 'package:mechanic_admin/models/mechanic_model.dart';
 import 'package:mechanic_admin/models/request_model.dart';
@@ -70,7 +71,7 @@ class AdminUserProvider with ChangeNotifier {
       'nationalId': nationalUrl,
       'status': 'pending',
       'images': imageUrls,
-      'isBusy':false,
+      'isBusy': false,
       'services': mech.services!.isEmpty
           ? []
           : List.generate(
@@ -175,5 +176,41 @@ class AdminUserProvider with ChangeNotifier {
                 vat: 0,
                 unitPrice: double.parse(k.services!.first.price!)))
             .toList());
+    notifyListeners();
+  }
+
+  Future<void> reportUser(RequestModel request) async {
+    final mechanicId = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('requests')
+        .doc('mechanics')
+        .collection(mechanicId)
+        .doc(request.id!)
+        .update({'status': 'reported'});
+
+    await FirebaseFirestore.instance
+        .collection('userData')
+        .doc('bookings')
+        .collection(request.user!.userId!)
+        .doc(request.id)
+        .update({'status': 'reported'});
+
+    await FirebaseFirestore.instance
+        .collection('mechanics')
+        .doc(mechanicId)
+        .update({'isBusy': true});
+    await userDataRef
+        .doc(request.user!.userId!)
+        .collection('notifications')
+        .doc(request.id)
+        .set({
+      'imageUrl':
+          'https://previews.123rf.com/images/sarahdesign/sarahdesign1509/sarahdesign150900627/44517835-confirm-icon.jpg',
+      'message': 'Mechanic ${request.mechanic!.name!} has reported you',
+      'type': 'booking',
+      'createdAt': Timestamp.now(),
+      'id': request.id,
+    });
+    notifyListeners();
   }
 }
