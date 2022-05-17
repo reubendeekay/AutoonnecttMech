@@ -20,32 +20,33 @@ class MechanicModel {
   final String? nationalId;
   final File? nationalIdFile;
   final String? permit;
+  final bool? isBusy;
   final File? permitFile;
   //FIREBASE CLASS FOR LONGITUDE AND LATITUDE
   final GeoPoint? location;
   final String? id;
 
-  MechanicModel({
-    this.name,
-    this.profile,
-    this.phone,
-    this.description,
-    this.openingTime,
-    this.fileImages,
-    this.profileFile,
-    this.closingTime,
-    this.analytics,
-    this.address,
-    this.location,
-    this.status,
-    this.id,
-    this.images,
-    this.services,
-    this.nationalId,
-    this.permit,
-    this.nationalIdFile,
-    this.permitFile,
-  });
+  MechanicModel(
+      {this.name,
+      this.profile,
+      this.phone,
+      this.description,
+      this.openingTime,
+      this.fileImages,
+      this.profileFile,
+      this.closingTime,
+      this.analytics,
+      this.address,
+      this.location,
+      this.status,
+      this.id,
+      this.images,
+      this.services,
+      this.nationalId,
+      this.permit,
+      this.nationalIdFile,
+      this.permitFile,
+      this.isBusy});
 
   Map<String, dynamic> toJson() {
     return {
@@ -62,6 +63,7 @@ class MechanicModel {
       'id': id,
       'images': images,
       'status': 'pending',
+      'isBusy': isBusy,
       'services':
           services == null ? [] : services!.map((e) => e.toJson()).toList(),
     };
@@ -83,6 +85,7 @@ class MechanicModel {
       status: json['status'],
       nationalId: json['nationalId'],
       permit: json['permit'],
+      isBusy: json['isBusy'],
     );
   }
 }

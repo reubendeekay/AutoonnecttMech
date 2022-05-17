@@ -389,6 +389,7 @@ class _MechanicRegisterScreenState extends State<MechanicRegisterScreen> {
                             loc.latitude!,
                             loc.longitude!,
                           ),
+                          isBusy: false,
                           phone: phone!,
                           closingTime: (closingTime!.h < 10
                                   ? '0' '${closingTime!.h}'
