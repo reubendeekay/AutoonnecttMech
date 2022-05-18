@@ -61,7 +61,7 @@ class PdfInvoiceApi {
               buildSupplierAddress(invoice.supplier),
               Container(
                 height: 50,
-                width: 50,
+                width: 120,
                 child: BarcodeWidget(
                   barcode: Barcode.qrCode(),
                   data: invoice.info.number,
@@ -108,7 +108,7 @@ class PdfInvoiceApi {
         final title = titles[index];
         final value = data[index];
 
-        return buildText(title: title, value: value, width: 200);
+        return buildText(title: title, value: value, width: 220);
       }),
     );
   }
@@ -141,19 +141,19 @@ class PdfInvoiceApi {
       'Date',
       'Quantity',
       'Unit Price',
-      'VAT',
+      'Driver',
       'Total'
     ];
     final data = invoice.items.map((item) {
-      final total = item.unitPrice * item.quantity * (1 + item.vat);
+      final total = item.unitPrice * item.quantity;
 
       return [
         item.description,
         Utils.formatDate(item.date),
         '${item.quantity}',
-        '\$ ${item.unitPrice}',
-        '${item.vat} %',
-        '\$ ${total.toStringAsFixed(2)}',
+        'KES ${item.unitPrice}',
+        item.name,
+        'KES ${total.toStringAsFixed(2)}',
       ];
     }).toList();
 
@@ -179,8 +179,7 @@ class PdfInvoiceApi {
     final netTotal = invoice.items
         .map((item) => item.unitPrice * item.quantity)
         .reduce((item1, item2) => item1 + item2);
-    final vatPercent = invoice.items.first.vat;
-    final vat = netTotal * vatPercent;
+    final vat = netTotal;
     final total = netTotal + vat;
 
     return Container(
@@ -199,7 +198,7 @@ class PdfInvoiceApi {
                   unite: true,
                 ),
                 buildText(
-                  title: 'Vat ${vatPercent * 100} %',
+                  title: 'Vat 5%',
                   value: Utils.formatPrice(vat),
                   unite: true,
                 ),

@@ -159,10 +159,11 @@ class AdminUserProvider with ChangeNotifier {
 
     _invoice = Invoice(
         info: InvoiceInfo(
-            date: DateTime.now(),
-            dueDate: DateTime.now(),
-            description: 'All transacations to date',
-            number: mechanic.id!),
+          date: DateTime.now(),
+          dueDate: DateTime.now(),
+          description: 'All transacations to date',
+          number: mechanic.id!.substring(0, 11),
+        ),
         supplier: Supplier(
             name: mechanic.name!,
             address: mechanic.address!,
@@ -173,7 +174,7 @@ class AdminUserProvider with ChangeNotifier {
                 description: k.services!.first.serviceName!,
                 date: k.date!,
                 quantity: 1,
-                vat: 0,
+                name: k.user!.fullName!,
                 unitPrice: double.parse(k.services!.first.price!)))
             .toList());
     notifyListeners();
