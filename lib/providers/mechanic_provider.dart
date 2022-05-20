@@ -226,4 +226,41 @@ class MechanicProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> arrived(RequestModel request) async {
+    final mechanicId = FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance
+        .collection('requests')
+        .doc('mechanics')
+        .collection(mechanicId)
+        .doc(request.id)
+        .update({'status': 'arrived'});
+
+    await FirebaseFirestore.instance
+        .collection('userData')
+        .doc('bookings')
+        .collection(request.user!.userId!)
+        .doc(request.id)
+        .update({'status': 'arrived'});
+
+    await FirebaseFirestore.instance
+        .collection('mechanics')
+        .doc(mechanicId)
+        .update({'isBusy': false});
+    await userDataRef
+        .doc(request.user!.userId!)
+        .collection('notifications')
+        .doc(request.id)
+        .set({
+      'imageUrl':
+          'https://previews.123rf.com/images/sarahdesign/sarahdesign1509/sarahdesign150900627/44517835-confirm-icon.jpg',
+      'message': 'Your booking has been cancelled by the mechanic',
+      'type': 'booking',
+      'createdAt': Timestamp.now(),
+      'id': request.id,
+    });
+
+    notifyListeners();
+  }
 }

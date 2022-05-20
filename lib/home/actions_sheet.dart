@@ -111,6 +111,23 @@ void actionSheet(BuildContext context, RequestModel request) {
                     size: 20,
                   ),
                   onTap: () async {
+                    await Provider.of<MechanicProvider>(context, listen: false)
+                        .arrived(request);
+                    Navigator.of(context).pop();
+                  },
+                  title: const Text(
+                    "Confirm Arrival",
+                    style: (TextStyle(
+                        letterSpacing: 0.3, fontWeight: FontWeight.w500)),
+                  ),
+                ),
+                ListTile(
+                  dense: true,
+                  leading: const Icon(
+                    Icons.close,
+                    size: 20,
+                  ),
+                  onTap: () async {
                     Navigator.of(context).pop();
                     Provider.of<MechanicProvider>(context, listen: false)
                         .cancelRequest(request);
